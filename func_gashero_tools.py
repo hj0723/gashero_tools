@@ -1,4 +1,4 @@
-from const_cost_calculator import *
+from const_gashero_tools import *
 
 def get_hero_cost(hero_cost_start_level, hero_cost_target_level):
     # (1, 2): {'pu': 1, 'gmt': 0}

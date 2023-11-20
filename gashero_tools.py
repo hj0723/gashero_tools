@@ -1,6 +1,6 @@
 import streamlit as st
-from const_cost_calculator import *
-from func_cost_calculator import *
+from const_gashero_tools import *
+from func_gashero_tools import *
 
 st.header('Cost Calculator :sunglasses:', divider='rainbow')
 
