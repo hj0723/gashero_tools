@@ -2,6 +2,12 @@ import streamlit as st
 from const_gashero_tools import *
 from func_gashero_tools import *
 
+st.set_page_config(
+    page_title="Gas Hero tools",
+    page_icon="https://framerusercontent.com/images/wMXHA9cBuudtI8kf36EHXH329rA.svg",
+)
+
+
 st.header('Gas Hero tools :sunglasses:', divider='rainbow')
 tab1, tab2, tab3 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Just a Cute Doggy"])
 
