@@ -13,3 +13,7 @@ def get_hero_cost(hero_cost_start_level, hero_cost_target_level):
             gmt += cost['gmt']
 
     return pu, gmt
+
+def get_total_energy(base_level, common_hero_amount, uncommon_hero_amount, rare_hero_amount, epic_hero_amount, legendary_hero_amount):
+    return 30+(base_level-1)*2 + min(30, 1*common_hero_amount + 2*uncommon_hero_amount + 3*rare_hero_amount + 4*epic_hero_amount + 5*legendary_hero_amount)
+
