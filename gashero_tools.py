@@ -7,9 +7,14 @@ st.set_page_config(
     page_icon="https://framerusercontent.com/images/wMXHA9cBuudtI8kf36EHXH329rA.svg",
 )
 
+if 'hero_picked_in_planner' not in st.session_state:
+    st.session_state['hero_picked_in_planner'] = []
+if 'go_plan' not in st.session_state:
+    st.session_state['go_plan'] = False
+
 
 st.header('Gas Hero tools :sunglasses:', divider='rainbow')
-tab1, tab2, tab3, tab4 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Just a Cute Doggy"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner","Just a Cute Doggy"])
 
 with tab1:
     st.title('Hero Upgrade Cost')
@@ -64,15 +69,29 @@ with tab3:
 
     st.subheader('Match Heroes', divider='violet')
     heroes = find_heroes(primary_attribute, sex, position, weapon, pet)
-    # body = ''
-    # for hero in heroes:
-    #     body += f"# {hero['codename'].title()}\n"
-    #     for skill in hero['skills']:
-    #         body += f"- {case_insensitive_replace(skill, primary_attribute, f':orange[{primary_attribute}]')}\n"
     body = get_display_str(heroes, primary_attribute, sex, weapon, pet)
     st.markdown(body, unsafe_allow_html=True)
 
 with tab4:
+    st.title('Hero Planner')
+
+    show_picked_heroes()
+    
+    if st.session_state['go_plan']:
+        st.button("Click To pick hero again!", on_click=reset_hero_picker)
+    else:
+        st.button("Click To get your Hero Plan!", on_click=go_to_plan_page)
+
+
+    if st.session_state['go_plan']:
+        plan_result()
+    else:
+        hero_picker()
+    
+
+    # st.session_state['hero_picked_in_planner'] = turn_hero_indexes_to_names(tank_hero_index+damage_hero_index+support_hero_index)
+
+with tab5:
    st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 
    st.markdown('''

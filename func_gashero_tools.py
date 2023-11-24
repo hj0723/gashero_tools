@@ -1,3 +1,4 @@
+import streamlit as st
 from const_gashero_tools import *
 from re import sub, IGNORECASE
 
@@ -61,3 +62,140 @@ def get_display_str(heroes, primary_attribute, sex, weapon, pet):
 
 def case_insensitive_replace(input_string, search_pattern, replacement):
     return sub(search_pattern, replacement, input_string, flags=IGNORECASE)
+
+def turn_hero_indexes_to_names(hero_indexes):
+    names = []
+    for i in range(len(hero_indexes)):
+        if hero_indexes[i]:
+            names.append(HERO_CODENAMES[i])
+    
+    return names
+
+def update_hero_picked(state, codename):
+    if codename in state['hero_picked_in_planner']:
+        state['hero_picked_in_planner'].remove(codename)
+    else:
+        state['hero_picked_in_planner'].append(codename)
+
+def show_picked_heroes():
+    hero_picked_in_planner = st.session_state['hero_picked_in_planner']
+    
+    if hero_picked_in_planner:
+        st.subheader('Hero You Picked:')
+    while hero_picked_in_planner:
+        _hero_picked_in_planner = hero_picked_in_planner[:4]
+        hero_picked_in_planner = hero_picked_in_planner[4:]
+        _columns = [None]*4    
+        _columns[0], _columns[1], _columns[2], _columns[3] = st.columns(4)
+        for i in range(len(_hero_picked_in_planner)):
+            with _columns[i]:
+                st.image(CODENAME_MAP_URL[_hero_picked_in_planner[i]], caption=_hero_picked_in_planner[i])
+
+def hero_picker():
+    st.header('Tank Heroes')
+    tank_hero_index = [False]*16
+    for i in range(4):
+        tab4_col1, tab5_col2, tab5_col3, tab5_col4 = st.columns(4)
+        with tab4_col1:
+            tank_hero_index[i*4] = st.checkbox(f'{TANK_HERO_CODENAMES[i*4]}', on_change=update_hero_picked, args=(st.session_state, TANK_HERO_CODENAMES[i*4]))
+            st.image(CODENAME_MAP_URL[TANK_HERO_CODENAMES[i*4]])
+        with tab5_col2:
+            tank_hero_index[i*4+1] = st.checkbox(f'{TANK_HERO_CODENAMES[i*4+1]}', on_change=update_hero_picked, args=(st.session_state, TANK_HERO_CODENAMES[i*4+1]))
+            st.image(CODENAME_MAP_URL[TANK_HERO_CODENAMES[i*4+1]])
+        with tab5_col3:
+            tank_hero_index[i*4+2] = st.checkbox(f'{TANK_HERO_CODENAMES[i*4+2]}', on_change=update_hero_picked, args=(st.session_state, TANK_HERO_CODENAMES[i*4+2]))
+            st.image(CODENAME_MAP_URL[TANK_HERO_CODENAMES[i*4+2]])
+        with tab5_col4:
+            tank_hero_index[i*4+3] = st.checkbox(f'{TANK_HERO_CODENAMES[i*4+3]}', on_change=update_hero_picked, args=(st.session_state, TANK_HERO_CODENAMES[i*4+3]))
+            st.image(CODENAME_MAP_URL[TANK_HERO_CODENAMES[i*4+3]])
+    
+    st.header('Damage Heroes')
+    damage_hero_index = [False]*16
+    for i in range(4):
+        tab4_col1, tab5_col2, tab5_col3, tab5_col4 = st.columns(4)
+        with tab4_col1:
+            damage_hero_index[i*4] = st.checkbox(f'{DAMAGE_HERO_CODENAMES[i*4]}', on_change=update_hero_picked, args=(st.session_state, DAMAGE_HERO_CODENAMES[i*4]))
+            st.image(CODENAME_MAP_URL[DAMAGE_HERO_CODENAMES[i*4]])
+        with tab5_col2:
+            damage_hero_index[i*4+1] = st.checkbox(f'{DAMAGE_HERO_CODENAMES[i*4+1]}', on_change=update_hero_picked, args=(st.session_state, DAMAGE_HERO_CODENAMES[i*4+1]))
+            st.image(CODENAME_MAP_URL[DAMAGE_HERO_CODENAMES[i*4+1]])
+        with tab5_col3:
+            damage_hero_index[i*4+2] = st.checkbox(f'{DAMAGE_HERO_CODENAMES[i*4+2]}', on_change=update_hero_picked, args=(st.session_state, DAMAGE_HERO_CODENAMES[i*4+2]))
+            st.image(CODENAME_MAP_URL[DAMAGE_HERO_CODENAMES[i*4+2]])
+        with tab5_col4:
+            damage_hero_index[i*4+3] = st.checkbox(f'{DAMAGE_HERO_CODENAMES[i*4+3]}', on_change=update_hero_picked, args=(st.session_state, DAMAGE_HERO_CODENAMES[i*4+3]))
+            st.image(CODENAME_MAP_URL[DAMAGE_HERO_CODENAMES[i*4+3]])
+    
+    st.header('Support Heroes')
+    support_hero_index = [False]*16
+    for i in range(4):
+        tab4_col1, tab5_col2, tab5_col3, tab5_col4 = st.columns(4)
+        with tab4_col1:
+            support_hero_index[i*4] = st.checkbox(f'{SUPPORT_HERO_CODENAMES[i*4]}', on_change=update_hero_picked, args=(st.session_state, SUPPORT_HERO_CODENAMES[i*4]))
+            st.image(CODENAME_MAP_URL[SUPPORT_HERO_CODENAMES[i*4]])
+        with tab5_col2:
+            support_hero_index[i*4+1] = st.checkbox(f'{SUPPORT_HERO_CODENAMES[i*4+1]}', on_change=update_hero_picked, args=(st.session_state, SUPPORT_HERO_CODENAMES[i*4+1]))
+            st.image(CODENAME_MAP_URL[SUPPORT_HERO_CODENAMES[i*4+1]])
+        with tab5_col3:
+            support_hero_index[i*4+2] = st.checkbox(f'{SUPPORT_HERO_CODENAMES[i*4+2]}', on_change=update_hero_picked, args=(st.session_state, SUPPORT_HERO_CODENAMES[i*4+2]))
+            st.image(CODENAME_MAP_URL[SUPPORT_HERO_CODENAMES[i*4+2]])
+        with tab5_col4:
+            support_hero_index[i*4+3] = st.checkbox(f'{SUPPORT_HERO_CODENAMES[i*4+3]}', on_change=update_hero_picked, args=(st.session_state, SUPPORT_HERO_CODENAMES[i*4+3]))
+            st.image(CODENAME_MAP_URL[SUPPORT_HERO_CODENAMES[i*4+3]])
+
+def count_weapon_keyword(heroes_skill_string):
+    heroes_skill_string = heroes_skill_string.lower()
+    weapon_counts = {weapon: heroes_skill_string.count(weapon) for weapon in WEAPONS}
+    weapon_counts = {weapon:count for weapon, count in weapon_counts.items() if count > 1}
+    sorted_weapon_counts = dict(sorted(weapon_counts.items(), key=lambda item: item[1], reverse=True))
+
+    return dict(list(sorted_weapon_counts.items())[:4])
+
+def weapon_plan_result(weapon_counts):
+    st.header('Weapon Combo Suggestion')
+    _columns = [None]*4    
+    weapon_counts_items = list(weapon_counts.items())
+
+    _columns[0], _columns[1], _columns[2], _columns[3] = st.columns(4)
+    for i in range(len(weapon_counts_items)):
+        weapon, count = weapon_counts_items[i]
+        with _columns[i]:
+            st.image(WEAPON_MAP_URL[weapon], caption=f'Appear in Skills: {count} times')
+
+def count_pet_keyword(heroes_skill_string):
+    heroes_skill_string = heroes_skill_string.lower()
+    pet_counts = {pet: heroes_skill_string.count(pet) for pet in PETS}
+    pet_counts = {pet:count for pet, count in pet_counts.items() if count > 1}
+    sorted_pet_counts = dict(sorted(pet_counts.items(), key=lambda item: item[1], reverse=True))
+
+    return dict(list(sorted_pet_counts.items())[:4])
+
+def pet_plan_result(pet_counts):
+    st.header('Pet Combo Suggestion')
+    _columns = [None]*4    
+    pet_counts_items = list(pet_counts.items())
+
+    _columns[0], _columns[1], _columns[2], _columns[3] = st.columns(4)
+    for i in range(len(pet_counts_items)):
+        pet, count = pet_counts_items[i]
+        with _columns[i]:
+            st.image(PET_MAP_URL[pet], caption=f'Appear in Skills: {count} times')
+
+def plan_result():
+    # st.header('Hero Combo Suggestion')
+    picked_heroes = st.session_state['hero_picked_in_planner']
+    heroes_info = [hero for hero in hero_db if hero['codename'] in picked_heroes]
+    heroes_skill_string = ' '.join([hero['full_skill_str'] for hero in heroes_info])
+    
+    weapon_counts = count_weapon_keyword(heroes_skill_string)
+    weapon_plan_result(weapon_counts)
+
+    pet_counts = count_pet_keyword(heroes_skill_string)
+    pet_plan_result(pet_counts)
+
+def go_to_plan_page():
+    st.session_state['go_plan'] = True
+
+def reset_hero_picker():
+    st.session_state['hero_picked_in_planner'] = []
+    st.session_state['go_plan'] = False
