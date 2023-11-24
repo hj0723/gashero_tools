@@ -80,7 +80,7 @@ with tab4:
     if st.session_state['go_plan']:
         st.button("Click To pick hero again!", on_click=reset_hero_picker)
     else:
-        st.button("Click To get your Hero Plan!", on_click=go_to_plan_page)
+        st.button("Click To get your Hero Plan!", on_click=go_to_plan_page, disabled=not is_picked_heroes())
 
 
     if st.session_state['go_plan']:

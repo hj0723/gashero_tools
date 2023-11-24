@@ -82,6 +82,9 @@ def show_picked_heroes():
     
     if hero_picked_in_planner:
         st.subheader('Hero You Picked:')
+    else:
+        st.subheader('Pick hero before click button')
+
     while hero_picked_in_planner:
         _hero_picked_in_planner = hero_picked_in_planner[:4]
         hero_picked_in_planner = hero_picked_in_planner[4:]
@@ -199,3 +202,6 @@ def go_to_plan_page():
 def reset_hero_picker():
     st.session_state['hero_picked_in_planner'] = []
     st.session_state['go_plan'] = False
+
+def is_picked_heroes():
+    return len(st.session_state['hero_picked_in_planner']) > 0
