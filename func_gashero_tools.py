@@ -2,6 +2,24 @@ import streamlit as st
 from const_gashero_tools import *
 from re import sub, IGNORECASE
 
+def init_state():
+    if 'hero_picked_in_planner' not in st.session_state:
+        st.session_state['hero_picked_in_planner'] = []
+    if 'go_plan' not in st.session_state:
+        st.session_state['go_plan'] = False
+    if 'hero_state_for_strength' not in st.session_state:
+        st.session_state['hero_state_for_strength'] = []
+        for i in range(6):
+            st.session_state['hero_state_for_strength'].append({
+                'hero_rarity': 0,
+                'hero_skill_amount': 0,
+                'hero_is_max_level': 0,
+                'pet_rarity': 0,
+                'pet_tier': 0,
+                'weapon_rarity': 0,
+                'weapon_attributes': 0,
+            })
+
 def get_hero_cost(hero_cost_start_level, hero_cost_target_level):
     # (1, 2): {'pu': 1, 'gmt': 0}
 
@@ -205,3 +223,88 @@ def reset_hero_picker():
 
 def is_picked_heroes():
     return len(st.session_state['hero_picked_in_planner']) > 0
+
+def strength_calculator():
+    st.title('Strength Calculator')
+    hero_infos = [{} for _ in range(6)]
+    _columns = [None]*18
+
+    base_level_strength = st.number_input('Base Level', min_value=1, max_value=21, step=1, key='strength_base_level')
+    skill_tree_level_strength = st.number_input('Skill Tree Level', min_value=0, step=1)
+    total_erergy_strength = st.number_input('Total Energy', min_value=30, max_value=100, step=1)
+    st.divider()
+
+    for i in range(6):
+        _columns[3*i+0], _columns[3*i+1], _columns[3*i+2] = st.columns(3)
+
+    for row in range(6):
+        hero_number = row
+        hero_state_for_strength = st.session_state['hero_state_for_strength'][hero_number]
+        with _columns[3*row+0]:
+            st.subheader(f'Hero {hero_number+1}')
+            hero_infos[hero_number]['hero_rarity'] = st.selectbox('Hero rarity', RARITIES, key=f'hero_rarity_{hero_number}')
+            hero_infos[hero_number]['hero_skill_amount'] = st.selectbox('Skills amount', SKILLS_AMOUNT, key=f'hero_skills_amount_{hero_number}')
+            hero_infos[hero_number]['hero_is_max_level'] = st.selectbox('Is hero Max level?', IS_HERO_MAX, key=f'is_hero_max_{hero_number}')
+        with _columns[3*row+1]:
+            st.subheader(f'Pet {hero_number+1}')
+            hero_infos[hero_number]['pet_rarity'] = st.selectbox('Pet rarity', RARITIES, key=f'pet_rarity_{hero_number}')
+            hero_infos[hero_number]['pet_tier'] = st.selectbox('Pet Tier', PET_TIER, key=f'pet_tier{hero_number}')
+            st.button(f'reset hero {hero_number+1}', use_container_width=True, key=f'reset_button_{hero_number}', on_click=reset_hero_for_strength_calculator, args=(hero_number,))
+        with _columns[3*row+2]:
+            st.subheader(f'Weapon {hero_number+1}')
+            hero_infos[hero_number]['weapon_rarity'] = st.selectbox('Weapon rarity', RARITIES, key=f'weapon_rarity_{hero_number}')
+            hero_infos[hero_number]['weapon_attributes'] = st.selectbox('Weapon attributes', WEAPON_ATTRIBUTES, key=f'weapon_attributes_{hero_number}')
+            st.button(f'Apply hero {hero_number+1} setup to other', use_container_width=True, key=f'apply_to_other_button_{hero_number}', on_click=apply_to_other_hero_forstrength_calculator, args=(hero_number,))
+
+    st.divider()
+    strength = get_strength(hero_infos, base_level_strength, skill_tree_level_strength, total_erergy_strength)
+    st.title('Strength')
+    st.header(strength)
+
+def get_strength(hero_infos, base_level_strength, skill_tree_level_strength, total_erergy_strength):
+    strength = 0
+    for hero_info in hero_infos:
+        if hero_info['hero_is_max_level']:
+            strength += HERO_RARITIES_MAP_SCORE[hero_info['hero_rarity']]*2
+        strength += int(hero_info['hero_skill_amount'])
+        
+        strength += WEAPON_RARITIES_MAP_SCORE[hero_info['weapon_rarity']]
+        strength += int(hero_info['weapon_attributes'])
+
+        strength += PET_RARITIES_MAP_SCORE[hero_info['pet_rarity']]
+        strength += int(hero_info['pet_tier'])
+
+    strength += (int(base_level_strength)-1)*2
+    strength += int(skill_tree_level_strength)
+    strength += int(total_erergy_strength)-30
+
+    return strength
+
+def set_css():
+    with open('style.css', 'r') as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True) 
+            
+def reset_hero_for_strength_calculator(hero_number):
+    st.session_state[f'hero_rarity_{hero_number}'] = RARITIES[0]
+    st.session_state[f'hero_skills_amount_{hero_number}'] = SKILLS_AMOUNT[0]
+    st.session_state[f'is_hero_max_{hero_number}'] = IS_HERO_MAX[0]
+
+    st.session_state[f'pet_rarity_{hero_number}'] = RARITIES[0]
+    st.session_state[f'pet_tier{hero_number}'] = PET_TIER[0]
+
+    st.session_state[f'weapon_rarity_{hero_number}'] = RARITIES[0]
+    st.session_state[f'weapon_attributes_{hero_number}'] = WEAPON_ATTRIBUTES[0]
+
+def apply_to_other_hero_forstrength_calculator(hero_number):
+    apply_to_hero_numbers = list(range(6))
+    apply_to_hero_numbers.remove(hero_number)
+    for apply_to_hero_number in apply_to_hero_numbers:
+        st.session_state[f'hero_rarity_{apply_to_hero_number}'] = st.session_state[f'hero_rarity_{hero_number}']
+        st.session_state[f'hero_skills_amount_{apply_to_hero_number}'] = st.session_state[f'hero_skills_amount_{hero_number}']
+        st.session_state[f'is_hero_max_{apply_to_hero_number}'] = st.session_state[f'is_hero_max_{hero_number}']
+
+        st.session_state[f'pet_rarity_{apply_to_hero_number}'] = st.session_state[f'pet_rarity_{hero_number}']
+        st.session_state[f'pet_tier{apply_to_hero_number}'] = st.session_state[f'pet_tier{hero_number}']
+
+        st.session_state[f'weapon_rarity_{apply_to_hero_number}'] = st.session_state[f'weapon_rarity_{hero_number}']
+        st.session_state[f'weapon_attributes_{apply_to_hero_number}'] = st.session_state[f'weapon_attributes_{hero_number}']

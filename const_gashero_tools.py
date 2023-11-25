@@ -93,3 +93,34 @@ PET_MAP_URL = {
     'crab':'https://framerusercontent.com/images/JiTPdqUW9pKL95v2YJL19nbJkw.png', 
     'panda':'https://framerusercontent.com/images/16JeAfT8Soywv93Y9ux36SnXw.png',    
 }
+
+RARITIES = (
+    'common',
+    'uncommon',
+    'rare',
+    'epic',
+    'legendary',
+)
+
+SKILLS_AMOUNT = tuple(range(1,8))
+IS_HERO_MAX = ('Yes', 'No')
+PET_TIER = tuple(range(1,6))
+WEAPON_ATTRIBUTES = SKILLS_AMOUNT
+
+HERO_RARITIES_MAP_SCORE = {
+    'common': 3,
+    'uncommon': 6,
+    'rare': 9,
+    'epic': 12,
+    'legendary': 15,
+}
+
+WEAPON_RARITIES_MAP_SCORE = {
+    'common': 2,
+    'uncommon': 4,
+    'rare': 6,
+    'epic': 8,
+    'legendary': 10,
+}
+
+PET_RARITIES_MAP_SCORE = WEAPON_RARITIES_MAP_SCORE

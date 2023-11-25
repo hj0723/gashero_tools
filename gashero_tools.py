@@ -7,14 +7,13 @@ st.set_page_config(
     page_icon="https://framerusercontent.com/images/wMXHA9cBuudtI8kf36EHXH329rA.svg",
 )
 
-if 'hero_picked_in_planner' not in st.session_state:
-    st.session_state['hero_picked_in_planner'] = []
-if 'go_plan' not in st.session_state:
-    st.session_state['go_plan'] = False
+set_css()
+
+init_state()
 
 
 st.header('Gas Hero tools :sunglasses:', divider='rainbow')
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner","Just a Cute Doggy"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner", "Strength Calculator", "Just a Cute Doggy"])
 
 with tab1:
     st.title('Hero Upgrade Cost')
@@ -92,6 +91,9 @@ with tab4:
     # st.session_state['hero_picked_in_planner'] = turn_hero_indexes_to_names(tank_hero_index+damage_hero_index+support_hero_index)
 
 with tab5:
+    strength_calculator()
+
+with tab6:
    st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 
    st.markdown('''
