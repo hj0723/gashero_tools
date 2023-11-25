@@ -264,15 +264,18 @@ def strength_calculator():
 def get_strength(hero_infos, base_level_strength, skill_tree_level_strength, total_erergy_strength):
     strength = 0
     for hero_info in hero_infos:
-        if hero_info['hero_is_max_level']:
-            strength += HERO_RARITIES_MAP_SCORE[hero_info['hero_rarity']]*2
-        strength += int(hero_info['hero_skill_amount'])
+        if hero_info['hero_rarity'] != 'None':
+            if hero_info['hero_is_max_level']:
+                strength += HERO_RARITIES_MAP_SCORE[hero_info['hero_rarity']]*2
+            strength += int(hero_info['hero_skill_amount'])
         
-        strength += WEAPON_RARITIES_MAP_SCORE[hero_info['weapon_rarity']]
-        strength += int(hero_info['weapon_attributes'])
+        if hero_info['weapon_rarity'] != 'None':
+            strength += WEAPON_RARITIES_MAP_SCORE[hero_info['weapon_rarity']]
+            strength += int(hero_info['weapon_attributes'])
 
-        strength += PET_RARITIES_MAP_SCORE[hero_info['pet_rarity']]
-        strength += int(hero_info['pet_tier'])
+        if hero_info['pet_rarity'] != 'None':
+            strength += PET_RARITIES_MAP_SCORE[hero_info['pet_rarity']]
+            strength += int(hero_info['pet_tier'])
 
     strength += (int(base_level_strength)-1)*2
     strength += int(skill_tree_level_strength)

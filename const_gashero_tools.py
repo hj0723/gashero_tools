@@ -95,6 +95,7 @@ PET_MAP_URL = {
 }
 
 RARITIES = (
+    'None',
     'common',
     'uncommon',
     'rare',
