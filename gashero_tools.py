@@ -13,7 +13,7 @@ init_state()
 
 
 st.header('Gas Hero tools :sunglasses:', divider='rainbow')
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner", "Strength Calculator", "Just a Cute Doggy"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner", "Strength Calculator", "APY calculator", "Just a Cute Doggy"])
 
 with tab1:
     st.title('Hero Upgrade Cost')
@@ -94,6 +94,9 @@ with tab5:
     strength_calculator()
 
 with tab6:
+    apy_calculator()
+
+with tab7:
    st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 
    st.markdown('''
