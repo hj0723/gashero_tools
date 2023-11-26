@@ -49,6 +49,12 @@ with tab3:
         'Primary Attribute in hero Skills',
         ('any', 'attack', 'defense', 'hp', 'mp', 'speed')
     )
+
+    special_ability = st.selectbox(
+        'Special Ability in hero Skills',
+        SPECIAL_ABILITY,
+    )
+
     sex = st.selectbox(
         'Hero Gender',
         ('both', 'male', 'female',)
@@ -67,8 +73,8 @@ with tab3:
     )
 
     st.subheader('Match Heroes', divider='violet')
-    heroes = find_heroes(primary_attribute, sex, position, weapon, pet)
-    body = get_display_str(heroes, primary_attribute, sex, weapon, pet)
+    heroes = find_heroes(primary_attribute, special_ability, sex, position, weapon, pet)
+    body = get_display_str(heroes, primary_attribute, special_ability, sex, weapon, pet)
     st.markdown(body, unsafe_allow_html=True)
 
 with tab4:

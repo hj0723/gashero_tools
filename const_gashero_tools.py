@@ -148,3 +148,32 @@ BASE_UPGRADE_COST = {
     19:40000,
     20:51000,
 }
+
+SPECIAL_ABILITY_STR = '''any
+successful attack
+successful dodge
+successful counter
+stackable
+death
+after every
+row
+heal
+shield
+rage
+reflect
+dodge
+dispel
+stun
+immune
+silence
+disarm
+back row
+weaken
+steal
+bleed
+spread
+combo rate
+invincibility'''
+
+SPECIAL_ABILITY = tuple(SPECIAL_ABILITY_STR.split('\n'))
+
