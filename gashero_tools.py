@@ -13,6 +13,7 @@ init_state()
 
 
 st.header('Gas Hero tools :sunglasses:', divider='rainbow')
+st.markdown(f'**Doc Shoshu**: &nbsp;&nbsp;&nbsp;{twitter_icon}')
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Hero Upgrade Cost", "Energy Calculator", "Hero Finder", "Hero Planner", "Strength Calculator", "APY calculator", "Just a Cute Doggy"])
 
 with tab1:

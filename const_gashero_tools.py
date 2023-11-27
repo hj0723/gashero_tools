@@ -177,3 +177,4 @@ invincibility'''
 
 SPECIAL_ABILITY = tuple(SPECIAL_ABILITY_STR.split('\n'))
 
+twitter_icon = '[![Repo](https://img.icons8.com/color/48/000000/twitter--v1.png)](https://twitter.com/Ninja76224909)'
